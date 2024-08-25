@@ -25,9 +25,10 @@ async def 개인기록(ctx):
             message = await bot.wait_for('message', check=check, timeout=60)
             if message.attachments:
                 attachment_urls = []
-                # Allow up to 5 attachments (or as many as the user uploads)
+                
                 for attachment in message.attachments[:5]:
                     attachment_urls.append(attachment.url)
+                print(attachment_urls)
                 await ctx.send(f"Photos received:\n" + "\n".join(attachment_urls))
         except asyncio.TimeoutError:
             await ctx.send("업로드 시간이 초과되었습니다!")
