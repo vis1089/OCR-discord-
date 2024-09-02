@@ -4,14 +4,14 @@ from discord.ui import Button, View
 from mybot import bot
 from dotenv import load_dotenv
 import os
-
+from separation_image import position, check_image
 
 @bot.command()
 async def test(ctx, arg):
     await ctx.send(arg)
 
 @bot.command()
-async def 개인기록(ctx):
+async def 개인기록(ctx, pos):
     button = Button(label="업로드", style=discord.ButtonStyle.primary)
     
     async def button_callback(interaction):
@@ -24,15 +24,19 @@ async def 개인기록(ctx):
         try:
             message = await bot.wait_for('message', check=check, timeout=60)
             if message.attachments:
-                attachment_urls = []
                 
                 for attachment in message.attachments[:5]:
-                    attachment_urls.append(attachment.url)
-                print(attachment_urls)
-                await ctx.send(f"Photos received:\n" + "\n".join(attachment_urls))
+                    if attachment.filename.endswith(('png', 'jpg', 'jpeg')):
+                        file_path = os.path.join('./user_image', attachment.filename)
+                        await attachment.save(file_path)
+                        await ctx.send(f'업로드 되었습니다! {attachment.filename}')
+
         except asyncio.TimeoutError:
             await ctx.send("업로드 시간이 초과되었습니다!")
 
+    pos = position(pos)
+    await ctx.send(pos)
+    
     button.callback = button_callback
 
     # Create a view and add the button
