@@ -18,9 +18,9 @@ def position(pos):
             return "FW"
 
 
-# 사진 분류(유효한 사진인지 확인)
+# 사진 분류(유효한 사진인지 확인) - 
 def check_image(user_img):
-    check_img = "./img/check_summary.png"
+    check_img = "./img/check.png"
     
     userImg = cv2.imread(user_img)
     checkImg = cv2.imread(check_img)
@@ -35,7 +35,9 @@ def check_image(user_img):
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
     
     # 일치가 잘 되었는지 임계값으로 확인 (예: 0.8 이상이면 일치했다고 간주)
-    threshold = 0.8
+    threshold = 0.1
+    print(max_val)
+    print(max_loc)
     if max_val >= threshold:
         print(f"p2 이미지가 p1 이미지 내에서 발견되었습니다. 위치: {max_loc}")
         return True

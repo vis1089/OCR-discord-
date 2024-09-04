@@ -26,10 +26,17 @@ async def 개인기록(ctx, pos):
             if message.attachments:
                 
                 for attachment in message.attachments[:5]:
+                    print(attachment)
+                    print(attachment.filename)
                     if attachment.filename.endswith(('png', 'jpg', 'jpeg')):
                         file_path = os.path.join('./user_image', attachment.filename)
                         await attachment.save(file_path)
-                        await ctx.send(f'업로드 되었습니다! {attachment.filename}')
+                        filename = './user_image' + '/' +  attachment.filename
+                        print(filename)
+                        if (check_image(filename)):
+                            await ctx.send(f'업로드 되었습니다! {attachment.filename}')
+                    else:
+                        await ctx.send(f'{attachment.filename} : 유효하지 않은 사진입니다!')
 
         except asyncio.TimeoutError:
             await ctx.send("업로드 시간이 초과되었습니다!")
