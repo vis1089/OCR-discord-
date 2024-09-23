@@ -53,8 +53,4 @@ async def 개인기록(ctx, pos):
     await ctx.send("Click the button to upload photos.", view=view)
 
 
-load_dotenv()
-
-bot_token = os.getenv("BOT_API")
-
-bot.run(bot_token)
+bot.run(os.environ['DISCORD_TOKEN'])
